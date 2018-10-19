@@ -11,7 +11,7 @@ syntax = "proto3";
 
 package examplepb;
 
-import "validate/validate.proto";
+import "github.com/viettranx/protoc-gen-validate/validate/validate.proto";
 
 message Person {
   uint64 id    = 1 [(validate.rules).uint64.gt    = 999];
