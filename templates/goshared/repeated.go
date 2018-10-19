@@ -6,20 +6,20 @@ const repTpl = `
 	{{ if $r.GetMinItems }}
 		{{ if eq $r.GetMinItems $r.GetMaxItems }}
 			if len({{ accessor . }}) != {{ $r.GetMinItems }} {
-				return {{ err . "value must contain exactly " $r.GetMinItems " item(s)" }}
+				{{ err . "value must contain exactly " $r.GetMinItems " item(s)" }}
 			}
 		{{ else if $r.MaxItems }}
 			if l := len({{ accessor . }}); l < {{ $r.GetMinItems }} || l > {{ $r.GetMaxItems }} {
-			 	return {{ err . "value must contain between " $r.GetMinItems " and " $r.GetMaxItems " items, inclusive" }}
+			 	{{ err . "value must contain between " $r.GetMinItems " and " $r.GetMaxItems " items, inclusive" }}
 			}
 		{{ else }}
 			if len({{ accessor . }}) < {{ $r.GetMinItems }} {
-				return {{ err . "value must contain at least " $r.GetMinItems " item(s)" }}
+				{{ err . "value must contain at least " $r.GetMinItems " item(s)" }}
 			}
 		{{ end }}
 	{{ else if $r.MaxItems }}
 		if len({{ accessor . }}) > {{ $r.GetMaxItems }} {
-			return {{ err . "value must contain no more than " $r.GetMaxItems " item(s)" }}
+			{{ err . "value must contain no more than " $r.GetMaxItems " item(s)" }}
 		}
 	{{ end }}
 

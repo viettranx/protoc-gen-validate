@@ -16,11 +16,11 @@ const durationTpl = `{{ $f := .Field }}{{ $r := .Rules }}
 			{{ if .Gogo.Nullable }}
 				if d := {{ accessor . }}; d != nil {
 					dur, err := types.DurationFromProto(d)
-					if err != nil { return {{ errCause . "err" "value is not a valid duration" }} }
+					if err != nil { {{ err . "value is not a valid duration" }} }
 			{{ else }}
 				if d := {{ accessor . }}; true {
 					dur, err := types.DurationFromProto(&d)
-					if err != nil { return {{ errCause . "err" "value is not a valid duration" }} }
+					if err != nil { {{ err . "value is not a valid duration" }} }
 			{{ end }}
 		{{ end }}
 

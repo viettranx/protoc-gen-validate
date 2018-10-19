@@ -10,7 +10,7 @@ import (
 
 	"github.com/golang/protobuf/proto"
 	"github.com/golang/protobuf/ptypes"
-	harness "github.com/lyft/protoc-gen-validate/tests/harness/go"
+	harness "github.com/viettranx/protoc-gen-validate/tests/harness/go"
 )
 
 func Work(wg *sync.WaitGroup, in <-chan TestCase, out chan<- TestResult) {

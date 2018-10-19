@@ -14,11 +14,11 @@ const timestampTpl = `{{ $f := .Field }}{{ $r := .Rules }}
 			{{ if .Gogo.Nullable }}
 				if t := {{ accessor . }}; t != nil {
 					ts, err := types.TimestampFromProto(t)
-					if err != nil { return {{ errCause . "err" "value is not a valid timestamp" }} }
+					if err != nil { {{ err . "value is not a valid timestamp" }} }
 			{{ else }}
 				if t := {{ accessor . }}; true {
 					ts, err := types.TimestampFromProto(&t)
-					if err != nil { return {{ errCause . "err" "value is not a valid timestamp" }} }
+					if err != nil { {{ err . "value is not a valid timestamp" }} }
 			{{ end }}
 		{{ end }}
 

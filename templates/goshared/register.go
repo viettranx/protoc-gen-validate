@@ -11,7 +11,7 @@ import (
 	"github.com/golang/protobuf/ptypes/timestamp"
 	"github.com/lyft/protoc-gen-star"
 	"github.com/lyft/protoc-gen-star/lang/go"
-	"github.com/lyft/protoc-gen-validate/templates/shared"
+	"github.com/viettranx/protoc-gen-validate/templates/shared"
 )
 
 func Register(tpl *template.Template, params pgs.Parameters) {
@@ -110,26 +110,27 @@ func (fns goSharedFuncs) errIdxCause(ctx shared.RuleContext, idx, cause string, 
 		fld = fmt.Sprintf("%q", n)
 	}
 
-	causeFld := ""
-	if cause != "nil" && cause != "" {
-		causeFld = fmt.Sprintf("cause: %s,", cause)
-	}
+	// if cause != "nil" && cause != "" {
+	// 	reason = append(reason, fmt.Sprintf(". %s", cause))
+	// }
 
-	keyFld := ""
-	if ctx.OnKey {
-		keyFld = "key: true,"
-	}
+	// keyFld := ""
+	// if ctx.OnKey {
+	// 	keyFld = "key: true,"
+	// }
 
-	return fmt.Sprintf(`%s{
-		field: %s,
-		reason: %q,
-		%s%s
-	}`,
-		fns.errName(f.Message()),
-		fld,
-		fmt.Sprint(reason...),
-		causeFld,
-		keyFld)
+	return fmt.Sprintf(`errorFields = append(errorFields, addErrorField(%s, %q))`, fld, fmt.Sprint(reason...))
+
+	// return fmt.Sprintf(`%s{
+	// 	field: %s,
+	// 	reason: %q,
+	// 	%s%s
+	// }`,
+	// 	fns.errName(f.Message()),
+	// 	fld,
+	// 	fmt.Sprint(reason...),
+	// 	causeFld,
+	// 	keyFld)
 }
 
 func (fns goSharedFuncs) err(ctx shared.RuleContext, reason ...interface{}) string {

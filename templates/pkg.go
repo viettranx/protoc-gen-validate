@@ -4,10 +4,10 @@ import (
 	"text/template"
 
 	"github.com/lyft/protoc-gen-star"
-	"github.com/lyft/protoc-gen-validate/templates/cc"
-	"github.com/lyft/protoc-gen-validate/templates/go"
-	"github.com/lyft/protoc-gen-validate/templates/gogo"
-	"github.com/lyft/protoc-gen-validate/templates/shared"
+	"github.com/viettranx/protoc-gen-validate/templates/cc"
+	"github.com/viettranx/protoc-gen-validate/templates/go"
+	"github.com/viettranx/protoc-gen-validate/templates/gogo"
+	"github.com/viettranx/protoc-gen-validate/templates/shared"
 )
 
 type RegisterFn func(tpl *template.Template, params pgs.Parameters)

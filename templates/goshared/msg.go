@@ -6,11 +6,14 @@ const msgTpl = `
 {{- else -}}
 	{{ cmt "Validate checks the field values on " (msgTyp .) " with the rules defined in the proto definition for this message. If any rules are violated, an error is returned." }}
 {{- end -}}
+
 func (m {{ (msgTyp .).Pointer }}) Validate() error {
 	{{ if disabled . -}}
 		return nil
 	{{ else -}}
 		if m == nil { return nil }
+
+		errorFields := []*errdetails.BadRequest_FieldViolation{}
 
 		{{ range .NonOneOfFields }}
 			{{ render (context .) }}
@@ -24,13 +27,18 @@ func (m {{ (msgTyp .).Pointer }}) Validate() error {
 				{{ end }}
 				{{ if required . }}
 					default:
-						return {{ errname .Message }}{
-							field: "{{ name . }}",
-							reason: "value is required",
-						}
+						addErrorField({{ name . }}, "value is required")
 				{{ end }}
 			}
 		{{ end }}
+		
+		if len(errorFields) > 0 {
+			st := status.New(codes.InvalidArgument, "Invalid data")
+			br := &errdetails.BadRequest{}
+			br.FieldViolations = errorFields
+			st, _ = st.WithDetails(br)
+			return st.Err()
+		}
 
 		return nil
 	{{ end -}}

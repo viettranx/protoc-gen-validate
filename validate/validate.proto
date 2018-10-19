@@ -1,7 +1,7 @@
 syntax = "proto2";
 package validate;
 
-option go_package = "github.com/lyft/protoc-gen-validate/validate";
+option go_package = "github.com/viettranx/protoc-gen-validate/validate";
 
 import "google/protobuf/descriptor.proto";
 import "google/protobuf/duration.proto";

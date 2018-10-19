@@ -67,21 +67,21 @@ const bytesTpl = `
 		{{ unimplemented }}
 		{{/* TODO(akonradi) implement all of this
 		if ip := net.IP({{ accessor . }}); ip.To16() == nil {
-			return {{ err . "value must be a valid IP address" }}
+			{{ err . "value must be a valid IP address" }}
 		}
 		*/}}
 	{{ else if $r.GetIpv4 }}
 		{{ unimplemented }}
 		{{/* TODO(akonradi) implement all of this
 		if ip := net.IP({{ accessor . }}); ip.To4() == nil {
-			return {{ err . "value must be a valid IPv4 address" }}
+			{{ err . "value must be a valid IPv4 address" }}
 		}
 		*/}}
 	{{ else if $r.GetIpv6 }}
 		{{ unimplemented }}
 		{{/* TODO(akonradi) implement all of this
 		if ip := net.IP({{ accessor . }}); ip.To16() == nil || ip.To4() != nil {
-			return {{ err . "value must be a valid IPv6 address" }}
+			{{ err . "value must be a valid IPv6 address" }}
 		}
 		*/}}
 	{{ end }}
@@ -90,7 +90,7 @@ const bytesTpl = `
 	{{ unimplemented }}
 	{{/* TODO(akonradi) implement regular expression matching
 	if !{{ lookup $f "Pattern" }}.Match({{ accessor . }}) {
-		return {{ err . "value does not match regex pattern " (lit $r.GetPattern) }}
+		{{ err . "value does not match regex pattern " (lit $r.GetPattern) }}
 	}
 	*/}}
 	{{ end }}

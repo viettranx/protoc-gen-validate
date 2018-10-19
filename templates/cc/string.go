@@ -9,13 +9,13 @@ const strTpl = `
 		{{ if $r.Len }}
 			{{/* TODO(akonradi) implement UTF-8 length constraints
 			if utf8.RuneCountInString({{ accessor . }}) != {{ $r.GetLen }} {
-				return {{ err . "value length must be " $r.GetLen " runes" }}
+				{{ err . "value length must be " $r.GetLen " runes" }}
 			}
 			*/}}
 		{{ else }}
 			{{/* TODO(akonradi) implement UTF-8 length constraints
 			if utf8.RuneCountInString({{ accessor . }}) != {{ $r.GetMinLen }} {
-				return {{ err . "value length must be " $r.GetMinLen " runes" }}
+				{{ err . "value length must be " $r.GetMinLen " runes" }}
 			}
 			*/}}
 		{{ end }}
@@ -24,11 +24,11 @@ const strTpl = `
 		{{/* TODO(akonradi) implement UTF-8 length constraints
 		{{ if $r.MaxLen }}
 			if l := utf8.RuneCountInString({{ accessor . }}); l < {{ $r.GetMinLen }} || l > {{ $r.GetMaxLen }} {
-				return {{ err . "value length must be between " $r.GetMinLen " and " $r.GetMaxLen " runes, inclusive" }}
+				{{ err . "value length must be between " $r.GetMinLen " and " $r.GetMaxLen " runes, inclusive" }}
 			}
 		{{ else }}
 			if utf8.RuneCountInString({{ accessor . }}) < {{ $r.GetMinLen }} {
-				return {{ err . "value length must be at least " $r.GetMinLen " runes" }}
+				{{ err . "value length must be at least " $r.GetMinLen " runes" }}
 			}
 		{{ end }}
 		*/}}
@@ -36,7 +36,7 @@ const strTpl = `
 		{{ unimplemented }}
 		{{/* TODO(akonradi) implement UTF-8 length constraints
 		if utf8.RuneCountInString({{ accessor . }}) > {{ $r.GetMaxLen }} {
-			return {{ err . "value length must be at most " $r.GetMaxLen " runes" }}
+			{{ err . "value length must be at most " $r.GetMaxLen " runes" }}
 		}
 		*/}}
 	{{ end }}
@@ -110,51 +110,51 @@ const strTpl = `
 		{{ unimplemented }}
 		{{/* TODO(akonradi) implement IP address constraints
 		if ip := net.ParseIP({{ accessor . }}); ip == nil {
-			return {{ err . "value must be a valid IP address" }}
+			{{ err . "value must be a valid IP address" }}
 		}
 		*/}}
 	{{ else if $r.GetIpv4 }}
 		{{ unimplemented }}
 		{{/* TODO(akonradi) implement IP address constraints
 		if ip := net.ParseIP({{ accessor . }}); ip == nil || ip.To4() == nil {
-			return {{ err . "value must be a valid IPv4 address" }}
+			{{ err . "value must be a valid IPv4 address" }}
 		}
 		*/}}
 	{{ else if $r.GetIpv6 }}
 		{{ unimplemented }}
 		{{/* TODO(akonradi) implement IP address constraints
 		if ip := net.ParseIP({{ accessor . }}); ip == nil || ip.To4() != nil {
-			return {{ err . "value must be a valid IPv6 address" }}
+			{{ err . "value must be a valid IPv6 address" }}
 		}
 		*/}}
 	{{ else if $r.GetEmail }}
 		{{ unimplemented }}
 		{{/* TODO(akonradi) implement email address constraints
 		if err := m._validateEmail({{ accessor . }}); err != nil {
-			return {{ errCause . "err" "value must be a valid email address" }}
+			{{ errCause . "err" "value must be a valid email address" }}
 		}
 		*/}}
 	{{ else if $r.GetHostname }}
 		{{ unimplemented }}
 		{{/* TODO(akonradi) implement hostname constraints
 		if err := m._validateHostname({{ accessor . }}); err != nil {
-			return {{ errCause . "err" "value must be a valid hostname" }}
+			 {{ errCause . "err" "value must be a valid hostname" }}
 		}
 		*/}}
 	{{ else if $r.GetUri }}
 		{{ unimplemented }}
 		{{/* TODO(akonradi) implement URI constraints
 		if uri, err := url.Parse({{ accessor . }}); err != nil {
-			return {{ errCause . "err" "value must be a valid URI" }}
+			{{ errCause . "err" "value must be a valid URI" }}
 		} else if !uri.IsAbs() {
-			return {{ err . "value must be absolute" }}
+			{{ err . "value must be absolute" }}
 		}
 		*/}}
 	{{ else if $r.GetUriRef }}
 		{{ unimplemented }}
 		{{/* TODO(akonradi) implement URI constraints
 		if _, err := url.Parse({{ accessor . }}); err != nil {
-			return {{ errCause . "err" "value must be a valid URI" }}
+			{{ errCause . "err" "value must be a valid URI" }}
 		}
 		*/}}
 	{{ end }}
@@ -163,7 +163,7 @@ const strTpl = `
 	{{ unimplemented }}
 	{{/* TODO(akonradi) implement regular expression constraints.
 	if !{{ lookup $f "Pattern" }}.MatchString({{ accessor . }}) {
-		return {{ err . "value does not match regex pattern " (lit $r.GetPattern) }}
+		{{ err . "value does not match regex pattern " (lit $r.GetPattern) }}
 	}
 	*/}}
 	{{ end }}

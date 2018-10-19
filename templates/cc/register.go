@@ -12,7 +12,7 @@ import (
 	"github.com/golang/protobuf/ptypes/timestamp"
 	"github.com/lyft/protoc-gen-star"
 	"github.com/lyft/protoc-gen-star/lang/go"
-	"github.com/lyft/protoc-gen-validate/templates/shared"
+	"github.com/viettranx/protoc-gen-validate/templates/shared"
 )
 
 func RegisterModule(tpl *template.Template, params pgs.Parameters) {
