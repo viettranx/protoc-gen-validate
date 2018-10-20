@@ -35,24 +35,51 @@ message Person {
 Executing `protoc` with PGV and the target language's default plugin will create `Validate` methods on the generated types:
 
 ```go
-p := new(Person)
+// ...
+func (m *Person) Validate() error {
+	if m == nil {
+		return nil
+	}
 
-err := p.Validate() // err: Id must be greater than 999
-p.Id = 1000
+	errorFields := []*errdetails.BadRequest_FieldViolation{}
 
-err = p.Validate() // err: Email must be a valid email address
-p.Email = "example@lyft.com"
+	if m.GetId() <= 999 {
+		errorFields = append(errorFields, addErrorField("Id", "value must be greater than 999"))
+	}
 
-err = p.Validate() // err: Name must match pattern '^[^\d\s]+( [^\d\s]+)*$'
-p.Name = "Protocol Buffer"
+	if err := m._validateEmail(m.GetEmail()); err != nil {
+		errorFields = append(errorFields, addErrorField("Email", "value must be a valid email address"))
+	}
 
-err = p.Validate() // err: Home is required
-p.Location = &Location{37.7, 999}
+	if len(m.GetName()) > 256 {
+		errorFields = append(errorFields, addErrorField("Name", "value length must be at most 256 bytes"))
+	}
 
-err = p.Validate() // err: Home.Lng must be within [-180, 180]
-p.Location.Lng = -122.4
+	if !_Person_Name_Pattern.MatchString(m.GetName()) {
+		errorFields = append(errorFields, addErrorField("Name", "value does not match regex pattern \"^[^[0-9]A-Za-z]+( [^[0-9]A-Za-z]+)*$\""))
+	}
 
-err = p.Validate() // err: nil
+	if m.GetHome() == nil {
+		errorFields = append(errorFields, addErrorField("Home", "value is required"))
+	}
+
+	if v, ok := interface{}(m.GetHome()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			errorFields = append(errorFields, addErrorField("Home", "embedded message failed validation"))
+		}
+	}
+
+	if len(errorFields) > 0 {
+		st := status.New(codes.InvalidArgument, "Invalid data")
+		br := &errdetails.BadRequest{}
+		br.FieldViolations = errorFields
+		st, _ = st.WithDetails(br)
+		return st.Err()
+	}
+
+	return nil
+}
+// ...
 ```
 
 ## Usage
