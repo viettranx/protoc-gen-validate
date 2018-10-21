@@ -119,7 +119,7 @@ func (fns goSharedFuncs) errIdxCause(ctx shared.RuleContext, idx, cause string, 
 	// 	keyFld = "key: true,"
 	// }
 
-	return fmt.Sprintf(`errorFields = append(errorFields, addErrorField(%s, %q))`, fld, fmt.Sprint(reason...))
+	return fmt.Sprintf(`errorFields = append(errorFields, errorField(%s, %q))`, fld, fmt.Sprint(reason...))
 
 	// return fmt.Sprintf(`%s{
 	// 	field: %s,

@@ -2,6 +2,7 @@ bazel-*
 
 !vendor/*
 
+/.idea
 /gogofast
 /gogofast.exe
 /protoc-gen-validate

@@ -35,7 +35,7 @@ var (
 	_ = types.DynamicAny{}
 )
 
-func addErrorField(fieldName, msg string) *errdetails.BadRequest_FieldViolation {
+func errorField(fieldName, msg string) *errdetails.BadRequest_FieldViolation {
 	return &errdetails.BadRequest_FieldViolation{
 		Field:       fieldName,
 		Description: msg,
