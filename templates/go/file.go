@@ -18,6 +18,7 @@ import (
 	"unicode/utf8"
 
 	"github.com/golang/protobuf/ptypes"
+	"google.golang.org/genproto/googleapis/rpc/errdetails"
 )
 
 // ensure the imports are used
@@ -34,6 +35,13 @@ var (
 	_ = (*mail.Address)(nil)
 	_ = ptypes.DynamicAny{}
 )
+
+func errorField(fieldName, msg string) *errdetails.BadRequest_FieldViolation {
+	return &errdetails.BadRequest_FieldViolation{
+		Field:       fieldName,
+		Description: msg,
+	}
+}
 
 {{ range .AllMessages }}
 	{{ template "msg" . }}

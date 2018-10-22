@@ -18,6 +18,7 @@ import (
 	"unicode/utf8"
 
 	"github.com/gogo/protobuf/types"
+	"google.golang.org/genproto/googleapis/rpc/errdetails"
 )
 
 // ensure the imports are used
