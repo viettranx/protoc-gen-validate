@@ -33,7 +33,7 @@ var (
 	_ = types.DynamicAny{}
 )
 
-func addErrorField(fieldName, msg string) *errdetails.BadRequest_FieldViolation {
+func errorField(fieldName, msg string) *errdetails.BadRequest_FieldViolation {
 	return &errdetails.BadRequest_FieldViolation{
 		Field:       fieldName,
 		Description: msg,
@@ -50,28 +50,28 @@ func (m *Person) Validate() error {
 	errorFields := []*errdetails.BadRequest_FieldViolation{}
 
 	if m.GetId() <= 999 {
-		errorFields = append(errorFields, addErrorField("Id", "value must be greater than 999"))
+		errorFields = append(errorFields, errorField("Id", "value must be greater than 999"))
 	}
 
 	if err := m._validateEmail(m.GetEmail()); err != nil {
-		errorFields = append(errorFields, addErrorField("Email", "value must be a valid email address"))
+		errorFields = append(errorFields, errorField("Email", "value must be a valid email address"))
 	}
 
 	if len(m.GetName()) > 256 {
-		errorFields = append(errorFields, addErrorField("Name", "value length must be at most 256 bytes"))
+		errorFields = append(errorFields, errorField("Name", "value length must be at most 256 bytes"))
 	}
 
 	if !_Person_Name_Pattern.MatchString(m.GetName()) {
-		errorFields = append(errorFields, addErrorField("Name", "value does not match regex pattern \"^[^[0-9]A-Za-z]+( [^[0-9]A-Za-z]+)*$\""))
+		errorFields = append(errorFields, errorField("Name", "value does not match regex pattern \"^[^[0-9]A-Za-z]+( [^[0-9]A-Za-z]+)*$\""))
 	}
 
 	if m.GetHome() == nil {
-		errorFields = append(errorFields, addErrorField("Home", "value is required"))
+		errorFields = append(errorFields, errorField("Home", "value is required"))
 	}
 
 	if v, ok := interface{}(m.GetHome()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
-			errorFields = append(errorFields, addErrorField("Home", "embedded message failed validation"))
+			errorFields = append(errorFields, errorField("Home", "embedded message failed validation"))
 		}
 	}
 
@@ -203,11 +203,11 @@ func (m *Person_Location) Validate() error {
 	errorFields := []*errdetails.BadRequest_FieldViolation{}
 
 	if val := m.GetLat(); val < -90 || val > 90 {
-		errorFields = append(errorFields, addErrorField("Lat", "value must be inside range [-90, 90]"))
+		errorFields = append(errorFields, errorField("Lat", "value must be inside range [-90, 90]"))
 	}
 
 	if val := m.GetLng(); val < -180 || val > 180 {
-		errorFields = append(errorFields, addErrorField("Lng", "value must be inside range [-180, 180]"))
+		errorFields = append(errorFields, errorField("Lng", "value must be inside range [-180, 180]"))
 	}
 
 	if len(errorFields) > 0 {

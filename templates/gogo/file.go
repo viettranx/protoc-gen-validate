@@ -19,6 +19,8 @@ import (
 
 	"github.com/gogo/protobuf/types"
 	"google.golang.org/genproto/googleapis/rpc/errdetails"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 )
 
 // ensure the imports are used
